@@ -81,7 +81,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                 <?php 
                                     $id_user = htmlspecialchars($_SESSION["id"]);
                                     //$query = "SELECT * FROM scores WHERE id_user='$id_user' ";
-                                    $query = "SELECT recipe.id, recipe.title, scores.score, scores.coment FROM recipe INNER JOIN scores ON recipe.id_user='$id_user' AND scores.id_user='$id_user' ";
+                                    $query = "SELECT recipe.id, recipe.title, scores.score, scores.coment FROM recipe INNER JOIN scores ON recipe.id=scores.id_recipe where recipe.id_user='$id_user' ";
                                     //$query = "SELECT recipe.id, recipe.title, scores.score, scores.coment FROM recipe INNER JOIN scores ON recipe.id_user=scores.id_user ";
                                     $query_run = mysqli_query($con, $query);
 
