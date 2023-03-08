@@ -17,7 +17,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Bem vindo</title>
+    <title>Notas</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/css.css">
     <style>
@@ -64,7 +64,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Suas receitas</h4>
+                        <h4>Nota das receitas</h4>
                     </div>
                     <div class="card-body">
 
@@ -72,32 +72,29 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                             <thead style="background-color: #4d0028; color: #ffb3da;">
                                 <tr>
                                     <th scope="row">ID</th>
-                                    <th scope="row">Titulo</th>
-                                    <th scope="row">Ação</th>
+                                    <th scope="row">ID receita</th>
+                                    <th scope="row">Nota</th>
+                                    <th scope="row">Comentário</th>
                                 </tr>
                             </thead>
                             <tbody style="background-color: #ffb3da; color: #4d0028;">
                                 <?php 
                                     $id_user = htmlspecialchars($_SESSION["id"]);
-                                    $query = "SELECT * FROM recipe WHERE id_user='$id_user' ";
+                                    //$query = "SELECT * FROM scores WHERE id_user='$id_user' ";
+                                    $query = "SELECT recipe.id, recipe.title, scores.score, scores.coment FROM recipe INNER JOIN scores ON recipe.id_user='$id_user' AND scores.id_user='$id_user' ";
+                                    //$query = "SELECT recipe.id, recipe.title, scores.score, scores.coment FROM recipe INNER JOIN scores ON recipe.id_user=scores.id_user ";
                                     $query_run = mysqli_query($con, $query);
 
                                     if(mysqli_num_rows($query_run) > 0)
                                     {
-                                        foreach($query_run as $recipe)
+                                        foreach($query_run as $scores)
                                         {
                                             ?>
                                             <tr style="color: #4d0028">
-                                                <td><?= $recipe['id']; ?></td>
-                                                <td><?= $recipe['title']; ?></td>
-                                                <td>
-                                                    <a href="recipe-view.php?id=<?= $recipe['id']; ?>" class="btn btn-info btn-sm">Visualizar</a>
-                                                    <a href="recipe-edit.php?id=<?= $recipe['id']; ?>" class="btn btn-success btn-sm">Editar</a>
-                                                    <a href="recipe-score.php?id=<?= $recipe['id']; ?>" class="btn btn-warning btn-sm">Dar nota</a>
-                                                    <form action="crud.php" method="POST" class="d-inline">
-                                                        <button type="submit" name="delete_recipe" value="<?=$recipe['id'];?>" class="btn btn-danger btn-sm">Deletar</button>
-                                                    </form>
-                                                </td>
+                                                <td><?= $scores['id']; ?></td>
+                                                <td><?= $scores['title']; ?></td>
+                                                <td><?= $scores['score']; ?></td>
+                                                <td><?= $scores['coment']; ?></td>
                                             </tr>
                                             <?php
                                         }

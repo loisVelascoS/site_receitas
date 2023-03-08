@@ -20,7 +20,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/css.css">
-    <title>Adicionar nova receita</title>
+    <title>Nota</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #4d0028;">
@@ -61,29 +61,34 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Adicionar receita</h4>
+                        <h4>Nota para a receita</h4>
                     </div>
                     <div class="card-body">
+                    <?php
+                        if(isset($_GET['id']))
+                        {
+                            $recipe_id = mysqli_real_escape_string($con, $_GET['id']);
+                        ?>
                         <form action="crud.php" method="POST">
-
+                            <input type="hidden" name="id_recipe" value="<?= $recipe_id ?>">
                             <div class="mb-3">
-                                <label>Titulo</label>
-                                <input type="text" name="title" class="form-control" required>
+                                <label>Pontuação</label>
+                                <input type="number" name="score" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <label>Modo de preparo</label>
-                                <input type="text" name="modo_preparo" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label>Ingredientes</label>
-                                <input type="text" name="ingredient" class="form-control" required>
+                                <label>Comentátio</label>
+                                <input type="text" name="coment" class="form-control">
                                 <input type="hidden" name="id_user" value="<?php echo htmlspecialchars($_SESSION["id"]); ?>">
                             </div>
                             <div class="mb-3">
-                                <button type="submit" name="save_recipe" class="btn btn-primary">Salvar receita</button>
+                                <button type="submit" name="score_recipe" class="btn btn-primary">
+                                    Salvar nota
+                                </button>
                             </div>
-                            
                         </form>
+                        <?php
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
